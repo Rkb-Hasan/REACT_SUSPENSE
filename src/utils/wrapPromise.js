@@ -4,7 +4,6 @@ export default function wrapPromise(promise) {
 
   const suspender = promise.then(
     (res) => {
-      console.log(res);
       status = "success";
       response = res;
     },

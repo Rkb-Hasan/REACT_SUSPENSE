@@ -1,15 +1,12 @@
-import fetchPosts from "../api/fetchPosts";
+import { use } from "react";
 
-// returns a promise and pass it to wrapper func
-const resource = fetchPosts(
-  "https://jsonplaceholder.typicode.com/posts?_limit=5"
-);
-
-export default function PostSelector({ onSelectPost }) {
-  const posts = resource.read();
+export default function PostSelectorUse({ postPromise, onSelectPost }) {
+  const posts = use(postPromise);
 
   return (
     <div>
+      {/* <div>after reolsolve data</div> */}
+
       <select
         style={{
           width: "100%",
