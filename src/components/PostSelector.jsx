@@ -1,45 +1,17 @@
-import { useEffect, useState } from "react";
+import fetchPosts from "../api/fetchPosts";
+
+// returns a promise
+const resource = fetchPosts(
+  "https://jsonplaceholder.typicode.com/posts?_limit=5"
+);
 
 export default function PostSelector({ onSelectPost }) {
-  const [posts, setPosts] = useState([]);
-  const [isPostsLoading, setIspostsLoading] = useState(false);
-  const [postsError, setPostsError] = useState(null);
-  useEffect(() => {
-    setIspostsLoading(true);
-    setPostsError(null);
+  const posts = resource.read();
 
-    const fetchPosts = async () => {
-      try {
-        const response = await fetch(
-          "https://jsonplaceholder.typicode.com/posts?_limit=5"
-        );
+  return (
+    <div>
+      {/* <div>after reolsolve data</div> */}
 
-        const data = await response.json();
-
-        if (response.ok) {
-          setIspostsLoading(false);
-          setPosts(data);
-        } else {
-          setIspostsLoading(false);
-          setPostsError("there was an error");
-        }
-      } catch (err) {
-        setIspostsLoading(false);
-        setPostsError(err.message);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  //   console.log(posts);
-  let postsContent;
-  if (isPostsLoading) {
-    postsContent = <div>post loading...</div>;
-  } else if (!isPostsLoading && postsError) {
-    postsContent = <div>{postsError}</div>;
-  } else {
-    postsContent = (
       <select
         style={{
           width: "100%",
@@ -55,7 +27,6 @@ export default function PostSelector({ onSelectPost }) {
           );
         })}
       </select>
-    );
-  }
-  return <div>{postsContent}</div>;
+    </div>
+  );
 }
